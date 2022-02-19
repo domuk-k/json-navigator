@@ -1,34 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# simplte JSON navigator
 
-## Getting Started
+JSON의 계층구조를 GUI로 탐색할 수 있는 웹앱입니다.
 
-First, run the development server:
+## 주요기능
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- [ ] JSON 확장자 파일\*을 업로드
+- [ ] JSON의 계층구조를 GUI로 탐색
+- [ ] 키워드 매칭 방식의 검색기능
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 제한사항
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- JSON 확장자 파일 내 format에 제한
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+  - JSON 데이터의 key는 영어 대소문자(`[a-zA-Z]`), 숫자(`[0-9]`), 마침표(`.`)로 구성될 수 있습니다. 이는 계층을 표현하는 방식으로 처리됩니다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    - 마침표(`.`)는 처음과 끝에 오지 않으며, 연속되지 않습니다.
 
-## Learn More
+    ```json
+    {
+      "foo.bar": true
+    }
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+  - JSON 데이터의 value에 객체가 올 수 있으며, 계층으로 처리됩니다
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```json
+    {
+      "foo": {
+        "bar": true
+      }
+    }
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 레퍼런스
 
-## Deploy on Vercel
+- JSON 내 각 속성의 형식에 대한 참고 : <https://www.json.org/json-en.html>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 구현에 관하여
+
+#### 1. 채택 기술
+
+- React : 렌더링 편의, 생산성, 개발경험(DX)
+- Next.js
+- tailwind : 쉽고 직관적인 스타일링. 소형 프로젝트에도 적합
+
+...TBD
+
+#### 2. 기능별 구현전략
+
+- 업로드 기능
+
+  - 파일 업로드 시 제한사항에 대한 데이터 검증
+    - 가급적 html input 요소의 속성을 활용
+  - 검증 실패 시, 적절한 인터렉션 제공
+
+- GUI 방식의 탐색 기능
+  - 계층구조 렌더링을 위한 데이터 가공
+  - 계층 제한 없이 렌더링 : 재귀 렌더링
+- 검색 기능
+  - 열린 요구사항 안에서 의사결정 필요
+    - 단순 필터링 (mac finder 방식)
+    - 하이라이트 (매칭되는 value에 색상을 표현하면서 계층구조 화면 유지)
