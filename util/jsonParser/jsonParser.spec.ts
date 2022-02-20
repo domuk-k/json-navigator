@@ -19,6 +19,32 @@ describe('parser', () => {
       })
     );
   });
+
+  it('should parse JSON with dotted key', () => {
+    const JSONData = {
+      name: '김패파',
+      'nested1.a': {
+        'nested2.b': {
+          name: 'JSON 명세의 중첩구조',
+        },
+      },
+    };
+
+    expect(JSON.stringify(jsonParser(JSONData))).toBe(
+      JSON.stringify({
+        name: '김패파',
+        nested1: {
+          a: {
+            nested2: {
+              b: {
+                name: 'JSON 명세의 중첩구조',
+              },
+            },
+          },
+        },
+      })
+    );
+  });
 });
 
 export {};
