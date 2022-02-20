@@ -66,7 +66,8 @@ const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
 
       effects?.onError?.(error);
     }
-  }, [effects, readAsJSON]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
 
   useEffect(() => {
     handleEffect();
