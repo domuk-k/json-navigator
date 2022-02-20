@@ -1,30 +1,30 @@
-import React, { useCallback, useState, type FormEvent } from 'react';
+import React, { useCallback } from 'react';
 
 import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
+import { useLoadedJSON } from 'context/loadedJSON';
 
 const UploadForm = () => {
-  const [loadedJSON, setLoadedJSON] = useState<object>();
+  const { setLoadedJSON } = useLoadedJSON();
 
-  const { readAsJSON, data } = useReadFileAsJSON();
+  const { readAsJSON } = useReadFileAsJSON();
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      event.preventDefault();
+
       const file = event.target.files?.[0];
 
       if (!file) {
         return;
       }
-      event.preventDefault();
 
       readAsJSON(file, {
-        onLoad: (data) => {
-          setLoadedJSON(data);
-        },
+        onLoad: setLoadedJSON,
         // FIXME: 적절한 에러 분기 및 UI 표시 - effect 함수전달
         onError: alert,
       });
     },
-    [readAsJSON]
+    [readAsJSON, setLoadedJSON]
   );
 
   return (
