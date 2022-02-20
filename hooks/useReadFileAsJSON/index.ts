@@ -3,8 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 type LoadedJSONType = object | null;
 
 interface FileReaderEffects {
-  onLoad: (data: LoadedJSONType) => void;
-  onError: (error: unknown) => void;
+  onLoad?: (data: LoadedJSONType) => void;
+  onError?: (error: unknown) => void;
 }
 
 const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
@@ -55,7 +55,7 @@ const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
       setIsLoading(false);
       setError(null);
 
-      effects?.onLoad(data);
+      effects?.onLoad?.(data);
     } catch (error) {
       setLoadedJSON(null);
       setError(error);
@@ -64,7 +64,7 @@ const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
       // TODO: 에러를 위한 UI, 부수효과 구현
       alert(error);
 
-      effects?.onError(error);
+      effects?.onError?.(error);
     }
   }, [effects, readAsJSON]);
 
