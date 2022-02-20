@@ -1,31 +1,32 @@
 import React, { useCallback, useState, useRef, type FormEvent } from 'react';
 
+import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
+
 const UploadForm = () => {
-  const [json, setJson] = useState<object>();
+  const [loadedJSON, setLoadedJSON] = useState<object>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = useCallback((event: FormEvent) => {
-    event.preventDefault();
+  const { readAsJSON, data } = useReadFileAsJSON();
 
-    if (!fileInputRef) return;
+  const handleSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
 
-    const fileReader = new FileReader();
+      if (!fileInputRef.current?.files?.[0]) {
+        return;
+      }
 
-    fileReader.onload = (event) => {
-      const fileAsText = event.target?.result as string;
-
-      const parsedJSONData = JSON.parse(fileAsText);
-
-      setJson(parsedJSONData);
-    };
-
-    if (!fileInputRef.current?.files?.[0]) {
-      return;
-    }
-
-    fileReader.readAsText(fileInputRef.current.files[0]);
-  }, []);
+      readAsJSON(fileInputRef.current.files[0], {
+        onLoad: (data) => {
+          setLoadedJSON(data);
+        },
+        // FIXME: 적절한 에러 분기 및 UI 표시 - effect 함수전달
+        onError: alert,
+      });
+    },
+    [readAsJSON]
+  );
 
   return (
     <form className="flex flex-col" id="upload" onSubmit={handleSubmit}>
