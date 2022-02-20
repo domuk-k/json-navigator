@@ -1,5 +1,9 @@
-import UploadForm from '../components/UploadForm';
 import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
+
+const UploadForm = dynamic(() => import('../components/UploadForm'), {
+  ssr: false,
+});
 
 const Home: NextPage = () => {
   return (
