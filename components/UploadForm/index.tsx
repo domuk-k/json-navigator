@@ -1,13 +1,15 @@
-import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
 import React, { useCallback, useState } from 'react';
 
+import { useLoadedJSON } from 'context/loadedJSON';
+import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
+
 const UploadForm = () => {
-  const [json, setJson] = useState<object | null>();
+  const { setLoadedJSON } = useLoadedJSON();
 
   const [file, setFile] = useState<File>();
 
   useReadFileAsJSON(file, {
-    onLoad: setJson,
+    onLoad: setLoadedJSON,
   });
 
   const handleChange = useCallback(
