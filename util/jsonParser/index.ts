@@ -1,23 +1,11 @@
 import isValidJsonKey from '../isValidJsonKey';
 
-type JSONValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JSONValue[]
-  | { [key: string]: JSONValue };
-
-interface JSONObject {
-  [k: string]: JSONValue;
-}
-
-function jsonParser(jsonRaw: unknown): unknown {
+function jsonParser(jsonRaw: JSONValue | null): JSONValue | null {
   if (!isValidJsonKey(jsonRaw)) {
     throw new Error('keys are broken');
   }
 
-  if (!jsonRaw || typeof jsonRaw !== 'object') return jsonRaw;
+  if (!jsonRaw) return null;
 
   return Object.entries(jsonRaw).reduce<JSONObject>((result, [key, value]) => {
     const [firstKey, ...rest] = key.split('.');
@@ -26,11 +14,17 @@ function jsonParser(jsonRaw: unknown): unknown {
 
     const isNestedValue = value !== null && typeof value === 'object';
 
+    const isArrayValue = Array.isArray(value);
+
     // 마침표 dot이 없는 키에 대해서는 key:value로 프로퍼티 등록
     if (!rest.length) {
       return {
         ...result,
-        [firstKey]: isNestedValue ? jsonParser(value) : value,
+        [firstKey]: isNestedValue
+          ? isArrayValue
+            ? value.map((jsonValue) => jsonParser(jsonValue))
+            : jsonParser(value)
+          : value,
       };
     }
 

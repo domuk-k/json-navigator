@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 
-type LoadedJSONType = object | null;
-
 interface FileReaderEffects {
-  onLoad?: (data: LoadedJSONType) => void;
+  onLoad?: (data: JSONObject | null) => void;
   onError?: (error: unknown) => void;
 }
 
 const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
-  const [loadedJSON, setLoadedJSON] = useState<LoadedJSONType>({});
+  const [loadedJSON, setLoadedJSON] = useState<JSONObject | null>({});
   const [isLoading, setIsLoading] = useState(false);
   // FIXME: 이 기능의 도메인 모델에서 정의하는 Error 타입 지정 필요합니다. 관계된 동료와 논의하세요
   const [error, setError] = useState<unknown>();
 
   const readAsJSON = useCallback(() => {
-    return new Promise<LoadedJSONType>((resolve, reject) => {
+    return new Promise<JSONObject | null>((resolve, reject) => {
       if (!file) {
         resolve(null);
       }

@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 
-type LoadedJSONType = object | null;
-
 type LoadedJSONContextType = {
-  loadedJSON: LoadedJSONType;
-  setLoadedJSON: (data: LoadedJSONType) => void;
+  loadedJSON: JSONObject | null;
+  setLoadedJSON: (data: JSONObject) => void;
 } | null;
 
 const LoadedJSONContext = createContext<LoadedJSONContextType>(null);
@@ -14,7 +12,7 @@ interface LoadedJSONProviderProp {
 }
 
 export function LoadedJSONProvider({ children }: LoadedJSONProviderProp) {
-  const [loadedJSON, setLoadedJSON] = useState<object | null>(null);
+  const [loadedJSON, setLoadedJSON] = useState<JSONObject | null>(null);
 
   return (
     <LoadedJSONContext.Provider
