@@ -30,7 +30,17 @@ const UploadForm = () => {
   return (
     <form className="flex flex-col" id="upload">
       <label htmlFor="file">업로드할 파일</label>
-      <input type="file" accept=".json" onChange={handleChange} />
+      <input
+        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
+           file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+             file:bg-violet-50 file:text-violet-700
+             hover:file:bg-violet-100
+           "
+        type="file"
+        accept=".json"
+        onChange={handleChange}
+      />
     </form>
   );
 };
