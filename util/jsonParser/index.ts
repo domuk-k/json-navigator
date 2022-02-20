@@ -24,11 +24,13 @@ function jsonParser(jsonRaw: unknown): unknown {
 
     const restKey = rest.join('.');
 
+    const isNestedValue = value !== null && typeof value === 'object';
+
     // 마침표 dot이 없는 키에 대해서는 key:value로 프로퍼티 등록
     if (!rest.length) {
       return {
         ...result,
-        [firstKey]: value,
+        [firstKey]: isNestedValue ? jsonParser(value) : value,
       };
     }
 
