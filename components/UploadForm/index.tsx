@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
-import { useLoadedJSON } from 'context/loadedJSON';
-import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
+import { useLoadedJSON } from '@/context/loadedJSON';
+import useReadFileAsJSON from '@/hooks/useReadFileAsJSON';
 
 const UploadForm = () => {
   const { setLoadedJSON } = useLoadedJSON();

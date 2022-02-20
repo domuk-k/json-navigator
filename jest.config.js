@@ -9,6 +9,9 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/components/(.*)$': '<rootDir>/components/$1',
+    '^@/context/(.*)$': '<rootDir>/context/$1',
+    '^@/hooks/(.*)$': '<rootDir>/hooks/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
 };
