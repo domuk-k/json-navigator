@@ -24,7 +24,7 @@ function Directories({ value, path }: DirectoriesProps) {
     : { path: null, value: JSON.stringify(accessResult) };
 
   return (
-    <div>
+    <div className="px-4">
       {Array.isArray(content) ? (
         <ul className="flex flex-col">
           {content.map((keyData) => (
@@ -48,9 +48,11 @@ type JSONKeyMeta = {
 };
 
 const JSONKey = ({ path, value }: { path: string[]; value: string }) => (
-  <Link href={`/${path.join('/')}`} passHref>
-    <a>{value}</a>
-  </Link>
+  <StyledEntity>
+    <Link href={`/${path.join('/')}`} passHref>
+      <a>{value}</a>
+    </Link>
+  </StyledEntity>
 );
 
 type JSONValueMeta = {
@@ -58,6 +60,14 @@ type JSONValueMeta = {
   value: string;
 };
 
-const JSONValue = ({ value }: { value: ReactNode }) => <div>{value}</div>;
+const JSONValue = ({ value }: { value: ReactNode }) => (
+  <StyledEntity>{value}</StyledEntity>
+);
+
+const StyledEntity = ({ children }: { children: ReactNode }) => (
+  <div className="text-2xl mt-1 px-3 py-1.5 hover:text-slate-200 text-slate-400 hover:bg-slate-800 rounded-xl">
+    {children}
+  </div>
+);
 
 export default Directories;

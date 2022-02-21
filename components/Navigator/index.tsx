@@ -16,7 +16,7 @@ const Navigator = () => {
   }
 
   return (
-    <div className="flex flex-row ">
+    <div className="flex flex-row divide-x divide-slate-700 mt-10">
       {paths.map((path, index, paths) => (
         <Directories
           key={path}

@@ -34,14 +34,16 @@ const UploadForm = () => {
   );
 
   return (
-    <form className="flex flex-col" id="upload">
-      <label htmlFor="file">업로드할 파일</label>
+    <form className="flex flex-col mt-6" id="upload">
+      <label className="hidden text-3xl" htmlFor="file">
+        업로드할 파일
+      </label>
       <input
-        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
+        className="block w-full text-sm text-white file:mr-4 file:py-2 file:px-4
            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-             file:bg-violet-50 file:text-violet-700
-             hover:file:bg-violet-100
+           file:text-sm file:font-semibold
+             file:bg-slate-700 file:text-slate-200
+             hover:file:bg-slate-600 
            "
         type="file"
         accept=".json"
