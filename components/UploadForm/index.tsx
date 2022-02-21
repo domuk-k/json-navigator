@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { useLoadedJSON } from 'context/loadedJSON';
 import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
@@ -6,10 +7,17 @@ import useReadFileAsJSON from 'hooks/useReadFileAsJSON';
 const UploadForm = () => {
   const { setLoadedJSON } = useLoadedJSON();
 
+  const router = useRouter();
+
   const [file, setFile] = useState<File>();
 
   useReadFileAsJSON(file, {
-    onLoad: setLoadedJSON,
+    onLoad: (data) => {
+      setLoadedJSON(data);
+      if (file?.name) {
+        router.push(`/${file.name.replace('.json', '')}`);
+      }
+    },
   });
 
   const handleChange = useCallback(
