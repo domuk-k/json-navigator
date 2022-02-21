@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 
-import Navigator from '@/components/Navigator';
+import MainLayout from 'layouts';
 
 const UploadForm = dynamic(() => import('@/components/UploadForm'), {
   ssr: false,
@@ -9,11 +9,9 @@ const UploadForm = dynamic(() => import('@/components/UploadForm'), {
 
 const Home: NextPage = () => {
   return (
-    <main className="grid gap-10 p-24">
-      <h1 className="text-2xl">JSON navigator</h1>
+    <MainLayout>
       <UploadForm />
-      <Navigator />
-    </main>
+    </MainLayout>
   );
 };
 
