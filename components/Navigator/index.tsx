@@ -12,7 +12,7 @@ const Navigator = () => {
   const paths = router.query.all;
 
   if (!loadedJSON || !Array.isArray(paths)) {
-    return <Link href="/">파일을 업로드해주세요</Link>;
+    return <p className="text-white">파일을 업로드해주세요</p>;
   }
 
   return (

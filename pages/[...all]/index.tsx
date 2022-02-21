@@ -1,8 +1,9 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 import MainLayout from 'layouts';
 import Navigator from '@/components/Navigator';
-import { useRouter } from 'next/router';
+import Header from '@/components/Header';
 
 const LocatorPage: NextPage = () => {
   const router = useRouter();
@@ -12,6 +13,7 @@ const LocatorPage: NextPage = () => {
 
   return (
     <MainLayout>
+      <Header />
       <h2 className="text-3xl text-gray-400">{fileName}</h2>
       <Navigator />
     </MainLayout>
