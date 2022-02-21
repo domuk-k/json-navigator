@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 
+import jsonParser from 'util/jsonParser';
+
 type LoadedJSONContextType = {
   loadedJSON: JSONObject | null;
-  setLoadedJSON: (data: JSONObject) => void;
+  setLoadedJSON: (data: JSONObject | null) => void;
 } | null;
 
 const LoadedJSONContext = createContext<LoadedJSONContextType>(null);
@@ -18,7 +20,9 @@ export function LoadedJSONProvider({ children }: LoadedJSONProviderProp) {
     <LoadedJSONContext.Provider
       value={{
         loadedJSON,
-        setLoadedJSON,
+        setLoadedJSON: (data) => {
+          setLoadedJSON(jsonParser(data) as JSONObject);
+        },
       }}
     >
       {children}

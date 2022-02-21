@@ -25,7 +25,13 @@ const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
         try {
           const parsedJSONData = JSON.parse(fileAsText);
 
-          resolve(parsedJSONData);
+          if (!file) {
+            return resolve(null);
+          }
+
+          const fileName = file.name.replace('.json', '');
+
+          resolve({ [fileName]: parsedJSONData });
         } catch (error) {
           if (error instanceof SyntaxError) {
             reject(
