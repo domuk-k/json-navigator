@@ -9,14 +9,9 @@ const UploadForm = () => {
 
   const router = useRouter();
 
-  const [file, setFile] = useState<File>();
-
-  useReadFileAsJSON(file, {
+  const { loadFileAsync } = useReadFileAsJSON({
     onLoad: (data) => {
       setLoadedJSON(data);
-      if (file?.name) {
-        router.push(`/${file.name.replace('.json', '')}`);
-      }
     },
   });
 
@@ -28,13 +23,15 @@ const UploadForm = () => {
         return;
       }
 
-      setFile(file);
+      loadFileAsync(file).then(() => {
+        router.push(`${file.name.replace('.json', '')}`);
+      });
     },
-    []
+    [loadFileAsync, router]
   );
 
   return (
-    <form className="flex flex-col mt-6" id="upload">
+    <form className="flex flex-col mt-3" id="upload">
       <label className="hidden text-3xl" htmlFor="file">
         업로드할 파일
       </label>
