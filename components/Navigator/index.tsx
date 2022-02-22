@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { useLoadedJSON } from 'context/loadedJSON';
 
-import Directories from '../Directories';
+import Directories from './Directories';
 
 const Navigator = () => {
   const { loadedJSON } = useLoadedJSON();

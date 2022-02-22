@@ -1,6 +1,4 @@
 import type { NextPage } from 'next';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
 
 import Header from '@/components/Header';
 import MainLayout from 'layouts';
