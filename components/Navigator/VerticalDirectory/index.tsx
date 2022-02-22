@@ -40,7 +40,9 @@ const Directory = ({ branch }: { branch: Branch }) => {
       </div>
       {selected &&
         (branch.value ? (
-          <div className="text-sky-400 pl-6">{branch.value}</div>
+          <div className="text-sky-400 pl-6">
+            {JSON.stringify(branch.value)}
+          </div>
         ) : (
           <div>
             {branch.branches?.map((branch) => (

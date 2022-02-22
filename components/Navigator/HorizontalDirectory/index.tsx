@@ -75,7 +75,7 @@ type JSONValueMeta = {
 };
 
 const JSONValue = ({ value }: { value: ReactNode }) => (
-  <StyledEntity>{value}</StyledEntity>
+  <StyledEntity>{JSON.stringify(value)}</StyledEntity>
 );
 
 const StyledEntity = ({
