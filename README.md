@@ -1,4 +1,4 @@
-# simplte JSON navigator
+# simple JSON navigator
 
 JSON의 계층구조를 GUI로 탐색할 수 있는 웹앱입니다.
 
