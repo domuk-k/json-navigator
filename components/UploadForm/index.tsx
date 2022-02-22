@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { useLoadedJSON } from 'context/loadedJSON';
@@ -9,11 +9,7 @@ const UploadForm = () => {
 
   const router = useRouter();
 
-  const { loadFileAsync } = useReadFileAsJSON({
-    onLoad: (data) => {
-      setLoadedJSON(data);
-    },
-  });
+  const { loadFileAsync } = useReadFileAsJSON();
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,11 +19,14 @@ const UploadForm = () => {
         return;
       }
 
-      loadFileAsync(file).then(() => {
-        router.push(`${file.name.replace('.json', '')}`);
+      loadFileAsync(file, {
+        onLoad: (data) => {
+          setLoadedJSON(data);
+          router.push(`${file.name.replace('.json', '')}`);
+        },
       });
     },
-    [loadFileAsync, router]
+    [loadFileAsync, router, setLoadedJSON]
   );
 
   return (

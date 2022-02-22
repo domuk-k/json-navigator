@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 interface FileReaderEffects {
+  // FIXME: @typescript-eslint/no-unused-vars 설정이 필요합니다
+  // eslint-disable-next-line no-unused-vars
   onLoad?: (data: JSONObject | null) => void;
+  // eslint-disable-next-line no-unused-vars
   onError?: (error: unknown) => void;
 }
 
-const useReadFileAsJSON = (effects?: FileReaderEffects) => {
+const useReadFileAsJSON = () => {
   const [loadedJSON, setLoadedJSON] = useState<JSONObject | null>({});
   const [isLoading, setIsLoading] = useState(false);
   // FIXME: 이 기능의 도메인 모델에서 정의하는 Error 타입 지정 필요합니다. 관계된 동료와 논의하세요
@@ -52,7 +55,7 @@ const useReadFileAsJSON = (effects?: FileReaderEffects) => {
   }, []);
 
   const handleEffect = useCallback(
-    async (file: File) => {
+    async (file: File, effects?: FileReaderEffects) => {
       try {
         const data = await readAsJSON(file);
 
@@ -72,7 +75,7 @@ const useReadFileAsJSON = (effects?: FileReaderEffects) => {
         effects?.onError?.(error);
       }
     },
-    [effects, readAsJSON]
+    [readAsJSON]
   );
 
   return {
