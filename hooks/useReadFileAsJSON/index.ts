@@ -1,10 +1,7 @@
 import { useCallback, useState } from 'react';
 
 interface FileReaderEffects {
-  // FIXME: @typescript-eslint/no-unused-vars 설정이 필요합니다
-  // eslint-disable-next-line no-unused-vars
   onLoad?: (data: JSONObject | null) => void;
-  // eslint-disable-next-line no-unused-vars
   onError?: (error: unknown) => void;
 }
 
