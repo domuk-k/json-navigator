@@ -9,12 +9,13 @@ const LocatorPage: NextPage = () => {
   const router = useRouter();
 
   const paths = router.query.all;
-  const fileName = paths && Array.isArray(paths) ? paths.join('/') : paths;
+  const navigatingPath =
+    paths && Array.isArray(paths) ? paths.join(' › ') : paths;
 
   return (
     <MainLayout>
       <Header />
-      <h2 className="text-3xl text-gray-400">{fileName}</h2>
+      <h2 className="text-3xl text-gray-400">{navigatingPath}</h2>
       <Navigator />
     </MainLayout>
   );
