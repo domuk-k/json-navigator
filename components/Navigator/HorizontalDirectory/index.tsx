@@ -1,3 +1,4 @@
+import { useLoadedJSON } from '@/context/loadedJSON';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
@@ -5,16 +6,17 @@ import isObject from 'util/isObject';
 
 type ContentType = JSONKeyMeta[] | JSONValueMeta;
 
-interface DirectoriesProps {
+interface HorizontalDirectoryProps {
   name: string;
-  value: JSONObject;
   path: string[];
 }
 
-function Directories({ name, value, path }: DirectoriesProps) {
+function HorizontalDirectory({ name, path }: HorizontalDirectoryProps) {
+  const { loadedJSON } = useLoadedJSON();
+
   const accessResult = path.reduce<string | Record<string, any>>(
     (result, p) => (isObject(result) ? result[p] : result),
-    value
+    loadedJSON as JSONObject
   );
 
   const content: ContentType = isObject(accessResult)
@@ -94,4 +96,4 @@ const StyledEntity = ({
   </div>
 );
 
-export default Directories;
+export default HorizontalDirectory;
