@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
 
 import { useLoadedJSON } from '@/context/loadedJSON';
 import useReadFileAsJSON from '@/hooks/useReadFileAsJSON';
@@ -6,11 +7,9 @@ import useReadFileAsJSON from '@/hooks/useReadFileAsJSON';
 const UploadForm = () => {
   const { setLoadedJSON } = useLoadedJSON();
 
-  const [file, setFile] = useState<File>();
+  const router = useRouter();
 
-  useReadFileAsJSON(file, {
-    onLoad: setLoadedJSON,
-  });
+  const { loadFileAsync } = useReadFileAsJSON();
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,20 +19,27 @@ const UploadForm = () => {
         return;
       }
 
-      setFile(file);
+      loadFileAsync(file, {
+        onLoad: (data) => {
+          setLoadedJSON(data);
+          router.push(`${file.name.replace('.json', '')}`);
+        },
+      });
     },
-    []
+    [loadFileAsync, router, setLoadedJSON]
   );
 
   return (
-    <form className="flex flex-col" id="upload">
-      <label htmlFor="file">업로드할 파일</label>
+    <form className="flex flex-col mt-3" id="upload">
+      <label className="hidden text-3xl" htmlFor="file">
+        업로드할 파일
+      </label>
       <input
-        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
+        className="block w-full text-sm text-white file:mr-4 file:py-2 file:px-4
            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-             file:bg-violet-50 file:text-violet-700
-             hover:file:bg-violet-100
+           file:text-sm file:font-semibold
+             file:bg-slate-700 file:text-slate-200
+             hover:file:bg-slate-600 
            "
         type="file"
         accept=".json"

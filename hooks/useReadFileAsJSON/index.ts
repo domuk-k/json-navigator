@@ -1,20 +1,18 @@
-import { useCallback, useEffect, useState } from 'react';
-
-type LoadedJSONType = object | null;
+import { useCallback, useState } from 'react';
 
 interface FileReaderEffects {
-  onLoad?: (data: LoadedJSONType) => void;
+  onLoad?: (data: JSONObject | null) => void;
   onError?: (error: unknown) => void;
 }
 
-const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
-  const [loadedJSON, setLoadedJSON] = useState<LoadedJSONType>({});
+const useReadFileAsJSON = () => {
+  const [loadedJSON, setLoadedJSON] = useState<JSONObject | null>({});
   const [isLoading, setIsLoading] = useState(false);
   // FIXME: 이 기능의 도메인 모델에서 정의하는 Error 타입 지정 필요합니다. 관계된 동료와 논의하세요
   const [error, setError] = useState<unknown>();
 
-  const readAsJSON = useCallback(() => {
-    return new Promise<LoadedJSONType>((resolve, reject) => {
+  const readAsJSON = useCallback((file: File) => {
+    return new Promise<JSONObject | null>((resolve, reject) => {
       if (!file) {
         resolve(null);
       }
@@ -27,7 +25,13 @@ const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
         try {
           const parsedJSONData = JSON.parse(fileAsText);
 
-          resolve(parsedJSONData);
+          if (!file) {
+            return resolve(null);
+          }
+
+          const fileName = file.name.replace('.json', '');
+
+          resolve({ [fileName]: parsedJSONData });
         } catch (error) {
           if (error instanceof SyntaxError) {
             reject(
@@ -45,38 +49,37 @@ const useReadFileAsJSON = (file?: File, effects?: FileReaderEffects) => {
 
       fileReader.readAsText(file as Blob, 'utf-8');
     });
-  }, [file]);
+  }, []);
 
-  const handleEffect = useCallback(async () => {
-    try {
-      const data = await readAsJSON();
+  const handleEffect = useCallback(
+    async (file: File, effects?: FileReaderEffects) => {
+      try {
+        const data = await readAsJSON(file);
 
-      setLoadedJSON(data);
-      setIsLoading(false);
-      setError(null);
+        setLoadedJSON(data);
+        setIsLoading(false);
+        setError(null);
 
-      effects?.onLoad?.(data);
-    } catch (error) {
-      setLoadedJSON(null);
-      setError(error);
-      setIsLoading(false);
+        effects?.onLoad?.(data);
+      } catch (error) {
+        setLoadedJSON(null);
+        setError(error);
+        setIsLoading(false);
 
-      // TODO: 에러를 위한 UI, 부수효과 구현
-      alert(error);
+        // TODO: 에러를 위한 UI, 부수효과 구현
+        alert(error);
 
-      effects?.onError?.(error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file]);
-
-  useEffect(() => {
-    handleEffect();
-  }, [handleEffect]);
+        effects?.onError?.(error);
+      }
+    },
+    [readAsJSON]
+  );
 
   return {
     error,
     isLoading,
     data: loadedJSON,
+    loadFileAsync: handleEffect,
   };
 };
 
