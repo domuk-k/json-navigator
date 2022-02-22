@@ -30,11 +30,17 @@ const Directory = ({ branch }: { branch: Branch }) => {
   const [selected, toggle] = useReducer((x) => !x, false);
 
   return (
-    <div className="pl-4 border-2 " key={branch.name}>
-      <div onClick={toggle}>{branch.name}</div>
+    <div
+      className="text-xl pl-4 border border-slate-800 rounded-md min-w-[240px] cursor-pointer"
+      key={branch.name}
+    >
+      <div className="flex h-10 items-center" onClick={toggle}>
+        <div className="text-sm w-6 h-6">{selected ? '▶︎' : '▼'}</div>
+        <span>{branch.name}</span>
+      </div>
       {selected &&
         (branch.value ? (
-          <div>{branch.value}</div>
+          <div className="text-sky-400 pl-6">{branch.value}</div>
         ) : (
           <div>
             {branch.branches?.map((branch) => (
