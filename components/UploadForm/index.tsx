@@ -30,7 +30,7 @@ const UploadForm = () => {
   );
 
   return (
-    <form className="flex flex-col" id="upload">
+    <form className="flex flex-col my-4" id="upload">
       <label className="hidden text-3xl" htmlFor="file">
         업로드할 파일
       </label>

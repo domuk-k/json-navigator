@@ -1,4 +1,3 @@
-import { useUIContext } from '@/context/ui';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -9,20 +8,15 @@ const UploadForm = dynamic(() => import('@/components/UploadForm'), {
 });
 
 const Header = () => {
-  const { navigatingMode, toggleNavigatingMode } = useUIContext();
-
   return (
-    <div className="flex flex-row justify-between items-center">
-      <div className="flex flex-row items-center">
+    <div className="flex flex-row justify-between items-center ">
+      <div className="flex flex-row items-center flex-wrap">
         <h1 className="mr-12 text-5xl text-slate-200">
           <Link href="/">JSON navigator</Link>
         </h1>
         <UploadForm />
+        <Switch />
       </div>
-      <Switch
-        checked={navigatingMode === 'horizontal'}
-        onClick={toggleNavigatingMode}
-      />
     </div>
   );
 };

@@ -1,24 +1,20 @@
-const Switch = ({
-  checked,
-  onClick,
-}: {
-  checked: boolean;
-  onClick: () => void;
-}) => {
-  const toggleClass = ' transform translate-x-6';
+import { useLoadedJSON } from '@/context/loadedJSON';
+import { useUIContext } from '@/context/ui';
 
+const Switch = () => {
+  const { loadedJSON } = useLoadedJSON();
+  const { navigatingMode, toggleNavigatingMode } = useUIContext();
+
+  if (!loadedJSON) {
+    return null;
+  }
   return (
-    <div
-      className="md:w-14 md:h-7 w-12 h-6 flex items-center bg-slate-400 rounded-full p-1 cursor-pointer"
-      onClick={onClick}
+    <button
+      className="inline-block items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-5 focus:outline-none focus:ring-2  dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 my-2"
+      onClick={toggleNavigatingMode}
     >
-      <div
-        className={
-          'bg-black md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform duration-300 ease-in-out' +
-          (checked ? null : toggleClass)
-        }
-      ></div>
-    </div>
+      {navigatingMode === 'horizontal' ? '세로로 보기' : '가로로 보기'}
+    </button>
   );
 };
 
