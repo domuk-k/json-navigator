@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
-import jsonParser from 'util/jsonParser';
+import jsonParser from '@/util/jsonParser';
 
 type LoadedJSONContextType = {
   loadedJSON: JSONObject | null;

@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 
 import Header from '@/components/Header';
-import MainLayout from 'layouts';
+import MainLayout from '@/layouts/index';
 
 const Home: NextPage = () => {
   return (

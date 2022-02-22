@@ -19,7 +19,7 @@
       "@/components/*": ["components/*"],
       "@/context/*": ["context/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/utils/*": ["utils/*"],
+      "@/util/*": ["util/*"],
       "@/layouts/*": ["layouts/*"]
     }
   },
