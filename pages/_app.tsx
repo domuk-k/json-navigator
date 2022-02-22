@@ -1,13 +1,17 @@
 import type { AppProps } from 'next/app';
 
-import { LoadedJSONProvider } from 'context/loadedJSON';
+import { UIContextProvider } from '@/context/ui';
+import { LoadedJSONProvider } from '@/context/loadedJSON';
+
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <LoadedJSONProvider>
-      <Component {...pageProps} />
-    </LoadedJSONProvider>
+    <UIContextProvider>
+      <LoadedJSONProvider>
+        <Component {...pageProps} />
+      </LoadedJSONProvider>
+    </UIContextProvider>
   );
 }
 
